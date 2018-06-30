@@ -55,46 +55,101 @@ void loop() {
   if (newReading) {
     // visualize the average bass of both channels
     uint8_t val = MSGEQ7.get(MSGEQ7_BASS);
-    uint8_t valLow = MSGEQ7.get(MSGEQ7_LOW);
-    uint8_t valMid = MSGEQ7.get(MSGEQ7_MID);
-    uint8_t valHigh = MSGEQ7.get(MSGEQ7_HIGH);
+    //    uint8_t valLow = MSGEQ7.get(MSGEQ7_LOW);
+    //    uint8_t valMid = MSGEQ7.get(MSGEQ7_MID);
+    //    uint8_t valHigh = MSGEQ7.get(MSGEQ7_HIGH);
+    //
+    //    // Reduce noise
+    //    val = mapNoise(val);
+    //    valLow = mapNoise(valLow);
+    //    valMid = mapNoise(valMid);
+    //    valHigh = mapNoise(valHigh);
+    //
+    //    Serial.print("Low is: ");
+    //    Serial.print(valLow);
+    //    Serial.print(" Mid is: ");
+    //    Serial.print(valMid);
+    //    Serial.print(" High is: ");
+    //    Serial.println(valHigh);
+
+    uint8_t val0 = MSGEQ7.get(MSGEQ7_0);
+    uint8_t val1 = MSGEQ7.get(MSGEQ7_1);
+    uint8_t val2 = MSGEQ7.get(MSGEQ7_2);
+    uint8_t val3 = MSGEQ7.get(MSGEQ7_3);
+    uint8_t val4 = MSGEQ7.get(MSGEQ7_4);
+    uint8_t val5 = MSGEQ7.get(MSGEQ7_5);
+    uint8_t val6 = MSGEQ7.get(MSGEQ7_6);
 
     // Reduce noise
     val = mapNoise(val);
-    valLow = mapNoise(valLow);
-    valMid = mapNoise(valMid);
-    valHigh = mapNoise(valHigh);
 
-    Serial.print("Low is: ");
-    Serial.print(valLow);
-    Serial.print(" Mid is: ");
-    Serial.print(valMid);
-    Serial.print(" High is: ");
-    Serial.println(valHigh);
+    val0 = mapNoise(val0);
+    val1 = mapNoise(val1);
+    val2 = mapNoise(val2);
+    val3 = mapNoise(val3);
+    val4 = mapNoise(val4);
+    val5 = mapNoise(val5);
+    val6 = mapNoise(val6);
 
-    // Visualize leds to the beat
-    CRGB color = CRGB::White;
-    color.nscale8_video(val);
-    //fill_solid(leds, NUM_LEDS, color);
-    fill_solid(leds, NUM_LEDS, color);
-//
-//    // Visualize leds to the beat
-//    CRGB colorRed = CRGB::Red;
-//    colorRed.nscale8_video(valLow);
-//    //leds[0] = colorRed;
-//    fill_solid(leds, NUM_LEDS, colorRed);
-//
-//    CRGB colorBlue = CRGB::Blue;
-//    colorBlue.nscale8_video(valMid);
-//    leds[1] = colorBlue;
-//    fill_solid(leds, NUM_LEDS - 40, colorBlue);
-//
-//    CRGB colorGreen = CRGB::Green;
-//    colorGreen.nscale8_video(valHigh);
-//    leds[2] = colorGreen;
-//    fill_solid(leds, NUM_LEDS - 80, colorGreen);
+    Serial.print("0 is: ");
+    Serial.print(val0);
+    Serial.print(" 1 is: ");
+    Serial.print(val1);
+    Serial.print(" 2 is: ");
+    Serial.print(val2);
+    Serial.print(" 3 is: ");
+    Serial.print(val3);
+    Serial.print(" 4 is: ");
+    Serial.print(val1);
+    Serial.print(" 5is: ");
+    Serial.print(val5);
+    Serial.print(" 6 is: ");
+    Serial.println(val6);
 
-    
+    CRGB colorRed = CRGB::Red;
+    colorRed.nscale8_video(val0);
+    CRGB colorGreen = CRGB::Green;
+    colorGreen.nscale8_video(val3);
+    CRGB colorBlue = CRGB::Blue;
+    colorBlue.nscale8_video(val5);
+
+    for ( int i = 0; i < NUM_LEDS; i++) {
+      int colorIndex = i % 3;
+      if (colorIndex == 0) {
+        leds[i] = colorRed;
+      }
+      if (colorIndex == 1) {
+        leds[i] = colorGreen;
+      }
+      if ( colorIndex == 2) {
+        leds[i] = colorBlue;
+      }
+    }
+
+
+    //    // Visualize leds to the beat
+    //    CRGB color = CRGB::White;
+    //    color.nscale8_video(val);
+    //    //fill_solid(leds, NUM_LEDS, color);
+    //    fill_solid(leds, NUM_LEDS, color);
+    //
+    //    // Visualize leds to the beat
+    //    CRGB colorRed = CRGB::Red;
+    //    colorRed.nscale8_video(valLow);
+    //    //leds[0] = colorRed;
+    //    fill_solid(leds, NUM_LEDS, colorRed);
+    //
+    //    CRGB colorBlue = CRGB::Blue;
+    //    colorBlue.nscale8_video(valMid);
+    //    leds[1] = colorBlue;
+    //    fill_solid(leds, NUM_LEDS - 40, colorBlue);
+    //
+    //    CRGB colorGreen = CRGB::Green;
+    //    colorGreen.nscale8_video(valHigh);
+    //    leds[2] = colorGreen;
+    //    fill_solid(leds, NUM_LEDS - 80, colorGreen);
+
+
 
     // Update Leds
     FastLED.show();
