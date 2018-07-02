@@ -81,7 +81,7 @@ void loop() {
     uint8_t val6 = MSGEQ7.get(MSGEQ7_6);
 
     // Reduce noise
-    val = mapNoise(val);
+    val = mapNoise(val3);
 
     val0 = mapNoise(val0);
     val1 = mapNoise(val1);
@@ -113,25 +113,32 @@ void loop() {
     CRGB colorBlue = CRGB::Blue;
     colorBlue.nscale8_video(val5);
 
-    for ( int i = 0; i < NUM_LEDS; i++) {
-      int colorIndex = i % 3;
-      if (colorIndex == 0) {
-        leds[i] = colorRed;
-      }
-      if (colorIndex == 1) {
-        leds[i] = colorGreen;
-      }
-      if ( colorIndex == 2) {
-        leds[i] = colorBlue;
-      }
-    }
+    //    for ( int i = 0; i < NUM_LEDS; i++) {
+    //      int colorIndex = i % 3;
+    //      if (colorIndex == 0) {
+    //        leds[i] = colorRed;
+    //      }
+    //      if (colorIndex == 1) {
+    //        leds[i] = colorGreen;
+    //      }
+    //      if ( colorIndex == 2) {
+    //        leds[i] = colorBlue;    
+    //      }
+    //    }
 
 
     //    // Visualize leds to the beat
-    //    CRGB color = CRGB::White;
-    //    color.nscale8_video(val);
-    //    //fill_solid(leds, NUM_LEDS, color);
-    //    fill_solid(leds, NUM_LEDS, color);
+    
+    //CRGB color = CRGB::Purple;
+
+    
+    int colorIndex = map(val, 0, 255, 190, 287);
+    
+    CRGB color = CHSV(colorIndex, 255,255);
+    color.nscale8_video(val);
+    //fill_solid(leds, NUM_LEDS, color);
+    fill_solid(leds, NUM_LEDS, color);
+    
     //
     //    // Visualize leds to the beat
     //    CRGB colorRed = CRGB::Red;
@@ -154,4 +161,4 @@ void loop() {
     // Update Leds
     FastLED.show();
   }
-}
+} 
